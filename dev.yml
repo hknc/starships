@@ -1,0 +1,30 @@
+version: '3'
+
+volumes:
+  db_data: {}
+
+services:
+  web:
+    restart: always
+    build: ./web
+    ports:
+      - "5000:5000"
+    links:
+      - postgres:postgres
+    volumes:
+      - ./web:/app
+    env_file:
+      - .env
+    environment:
+      - FLASK_APP=app.py
+      - FLASK_DEBUG=1
+      - FLASK_ENV=development
+    command: python -m flask run --host=0.0.0.0
+
+  postgres:
+    restart: always
+    image: postgres:10-alpine
+    env_file:
+      - .env
+    volumes:
+      - db_data:/var/lib/postgresql/data
