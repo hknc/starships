@@ -7,10 +7,12 @@ from schema import starships_schema, starships_unknown_hyperdrive_schema
 
 class StarshipList(Resource):
     def get(self):
+        # starships
         starships = Starship.query.filter(Starship.hyperdrive.isnot(None)).order_by(
             Starship.hyperdrive
         )
         starships_list = starships_schema.dump(starships)
+        # starships_unknown_hyperdrive
         starships_unknown_hyperdrive = Starship.query.filter(
             Starship.hyperdrive.is_(None)
         )

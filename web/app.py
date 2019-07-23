@@ -5,6 +5,8 @@ from flask_sqlalchemy import SQLAlchemy
 from config import BaseConfig
 from db import db, ma
 from resources import StarshipList
+from utils import update_starships
+from models import Starship
 
 app = Flask(__name__)
 
@@ -30,12 +32,21 @@ def create_tables():
 @app.before_first_request
 def init_app():
     create_tables()
+    # Clear old data
+    try:
+        db.session.query(Starship).delete()
+        db.session.commit()
+    except:
+        db.session.rollback()
+    # Collect the starships from SWAPI
+    update_starships()
 
 
 # Setup the Api resource routing
-api.add_resource(StarshipList, "/api/list")
+api.add_resource(StarshipList, "/list")
 
-app.register_blueprint(api_bp)
+# Register blueprint
+app.register_blueprint(api_bp, url_prefix='/api')
 
 if __name__ == "__main__":
     app.run()

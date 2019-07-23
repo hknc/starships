@@ -8,3 +8,4 @@ Werkzeug==0.15.1
 gunicorn==19.9.0
 psycopg2==2.7.7
 simplejson==3.16.0
+requests==2.22.0

@@ -10,10 +10,6 @@ class StarshipSchema(ma.ModelSchema):
         ordered = False
 
 
-starship_schema = StarshipSchema()
-starships_schema = StarshipSchema(many=True)
-
-
 class StarshipUnknownHyperdriveSchema(ma.ModelSchema):
     class Meta:
         model = Starship
